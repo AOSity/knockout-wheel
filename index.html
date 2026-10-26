@@ -1,0 +1,145 @@
+<title>Knockout Wheel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Shrikhand&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<canvas class="fx fx-bg" id="fxBg" aria-hidden="true"></canvas>
+
+<div class="ticker ticker-top" aria-hidden="true">
+  <div class="ticker-track">
+    <span>🎰 SPIN TO WIN ★ NO REFUNDS 💸 100% NOT RIGGED 🤞 SMASH THAT SPIN BUTTON 🔥 THE HOUSE ALWAYS WINS 🏠 ONE MORE SPIN 🙏 CERTIFIED BANGER 💯 KNOCKOUT WHEEL 👑 ★ 🎰 SPIN TO WIN ★ NO REFUNDS 💸 100% NOT RIGGED 🤞 SMASH THAT SPIN BUTTON 🔥 THE HOUSE ALWAYS WINS 🏠 ONE MORE SPIN 🙏 CERTIFIED BANGER 💯 KNOCKOUT WHEEL 👑 ★&nbsp;</span>
+    <span>🎰 SPIN TO WIN ★ NO REFUNDS 💸 100% NOT RIGGED 🤞 SMASH THAT SPIN BUTTON 🔥 THE HOUSE ALWAYS WINS 🏠 ONE MORE SPIN 🙏 CERTIFIED BANGER 💯 KNOCKOUT WHEEL 👑 ★ 🎰 SPIN TO WIN ★ NO REFUNDS 💸 100% NOT RIGGED 🤞 SMASH THAT SPIN BUTTON 🔥 THE HOUSE ALWAYS WINS 🏠 ONE MORE SPIN 🙏 CERTIFIED BANGER 💯 KNOCKOUT WHEEL 👑 ★&nbsp;</span>
+  </div>
+</div>
+
+<div class="app">
+  <header class="head">
+    <div>
+      <h1 class="wordmark">Knockout Wheel</h1>
+      <p class="tagline">Every spin draws one name and takes it off the wheel.</p>
+    </div>
+    <div class="head-tools">
+      <button class="btn chaos-btn" id="chaosBtn" type="button" aria-pressed="true">Chaos: MAX</button>
+      <button class="btn" id="soundBtn" type="button" aria-pressed="true">Sound on</button>
+      <button class="btn" id="chromaBtn" type="button">Green screen</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <p class="nudge" id="nudge" aria-hidden="true">👇 SMASH THAT SPIN BUTTON 👇</p>
+    <div class="wheel-wrap" id="wheelWrap" data-mode="idle">
+      <div class="combo" aria-hidden="true">COMBO <b id="comboN">x0</b></div>
+      <div class="halo"></div>
+      <div class="frame"></div>
+      <div class="bulbs" id="bulbs" data-mode="idle"></div>
+      <canvas id="wheel" aria-hidden="true"></canvas>
+      <div class="sheen"></div>
+      <svg class="flapper" viewBox="0 0 40 80" aria-hidden="true">
+        <defs>
+          <linearGradient id="flapBrass" x1="0" x2="1">
+            <stop offset="0" stop-color="#8a5f17"/>
+            <stop offset="0.45" stop-color="#f2d38a"/>
+            <stop offset="1" stop-color="#a87623"/>
+          </linearGradient>
+        </defs>
+        <path d="M20 3 C32 3 35 14 30 25 L20 77 L10 25 C5 14 8 3 20 3 Z" fill="url(#flapBrass)" stroke="#4a3109" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="20" cy="15" r="5.5" fill="#2b170c" stroke="#f2d38a" stroke-width="2"/>
+      </svg>
+      <div class="hub-glow"></div>
+      <button class="hub" id="hub" type="button" aria-label="Spin the wheel">SPIN</button>
+    </div>
+
+    <div class="hype" id="hype" data-max="false" aria-hidden="true">
+      <span class="hype-label">Hype</span>
+      <div class="hype-bar"><div class="hype-fill"></div></div>
+      <span class="hype-val" id="hypeVal">10%</span>
+    </div>
+
+    <section class="plate" id="plate" data-mode="idle">
+      <div class="bulbs plate-bulbs" id="plateBulbs" data-mode="idle" aria-hidden="true"></div>
+      <p class="plate-eyebrow" id="plateEyebrow"></p>
+      <div class="plate-name">
+        <p class="plate-main" id="plateMain"></p>
+        <svg class="shades" viewBox="0 0 22 4" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="0" y="0" width="22" height="1" fill="#000"/>
+          <rect x="1" y="1" width="9" height="2" fill="#000"/>
+          <rect x="2" y="3" width="7" height="1" fill="#000"/>
+          <rect x="12" y="1" width="9" height="2" fill="#000"/>
+          <rect x="13" y="3" width="7" height="1" fill="#000"/>
+          <rect x="2" y="1" width="1" height="1" fill="#fff"/>
+          <rect x="3" y="2" width="1" height="1" fill="#fff"/>
+          <rect x="13" y="1" width="1" height="1" fill="#fff"/>
+          <rect x="14" y="2" width="1" height="1" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="stamp" id="stamp" hidden aria-hidden="true">Eliminated</div>
+      <div class="plate-actions" id="plateActions" hidden>
+        <button class="btn primary" id="takeOffBtn" type="button">Take it off</button>
+        <button class="btn" id="keepBtn" type="button">Keep on wheel</button>
+      </div>
+      <p class="plate-hint" id="plateHint"></p>
+    </section>
+    <div class="sr-only" id="announce" aria-live="polite"></div>
+  </main>
+
+  <aside class="panel">
+    <section class="sec">
+      <div class="sec-head">
+        <h2 class="sec-title"><label for="entries">On the wheel</label> <span class="count" id="entryCount">0</span></h2>
+        <button class="btn small" id="shuffleBtn" type="button">Shuffle</button>
+      </div>
+      <p class="example-note" id="exampleNote">Example list of games to stream next, with example votes. Replace them with your own.</p>
+      <textarea id="entries" spellcheck="false" autocomplete="off"></textarea>
+      <p class="note" id="entriesNote"></p>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2 class="sec-title" id="chanceTitle">Chances</h2>
+        <button class="btn small" id="clearVotesBtn" type="button">Clear votes</button>
+      </div>
+      <div class="seg seg-2" role="radiogroup" aria-labelledby="chanceTitle">
+        <input type="radio" name="chance" id="chanceEqual" value="equal"><label for="chanceEqual">Equal<small>same slice for all</small></label>
+        <input type="radio" name="chance" id="chanceVotes" value="votes"><label for="chanceVotes">By votes<small>votes shrink a slice</small></label>
+      </div>
+      <p class="note" id="chanceNote"></p>
+      <div class="votes-box" id="votesBox" hidden>
+        <div class="votes-head" aria-hidden="true"><span>Option</span><span>Votes</span><span>Chance</span></div>
+        <ul class="votes" id="votesList"></ul>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2 class="sec-title">Drawn <span class="count" id="drawnCount">0</span></h2>
+        <div class="row">
+          <button class="btn small" id="copyBtn" type="button">Copy order</button>
+          <button class="btn small" id="restoreBtn" type="button">Put all back</button>
+        </div>
+      </div>
+      <ol class="drawn" id="drawnList"></ol>
+      <p class="empty" id="drawnEmpty">Nothing drawn yet. Each result lands here in draw order.</p>
+    </section>
+
+    <section class="sec">
+      <h2 class="sec-title" id="durTitle">Spin length</h2>
+      <div class="seg" role="radiogroup" aria-labelledby="durTitle">
+        <input type="radio" name="dur" id="dur3" value="3"><label for="dur3">Quick<small>3 s</small></label>
+        <input type="radio" name="dur" id="dur6" value="6"><label for="dur6">Classic<small>6 s</small></label>
+        <input type="radio" name="dur" id="dur10" value="10"><label for="dur10">Drama<small>10 s</small></label>
+      </div>
+    </section>
+  </aside>
+</div>
+<div class="ticker ticker-bottom" aria-hidden="true">
+  <div class="ticker-track" id="tickerLive"><span></span><span></span></div>
+</div>
+<button class="btn chroma-exit" id="chromaExit" type="button" hidden>Exit green screen · Esc</button>
+
+<canvas class="fx fx-fg" id="fxFg" aria-hidden="true"></canvas>
+
+<script src="sound.js"></script>
+<script src="fx.js"></script>
+<script src="app.js"></script>
