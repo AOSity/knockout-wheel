@@ -1,3 +1,4 @@
+[hidden] { display: none !important; }
 /* Layout: a casino felt table. The wheel is the stage on the left, a tally card sits beside it; both stack on phones.
    One deliberate look in every theme: green felt, walnut and brass, marquee bulbs. */
 :root {
@@ -759,7 +760,8 @@ body[data-mode="spin"] .ticker-track { animation-duration: 8s; }
   to { transform: translate(-50%, -50%) rotate(-12deg) scale(1); opacity: 1 }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Disabled: motion is opt-in via ?reduce-motion in JS; OS setting is ignored */
+@media not all {
   .bulbs .bulb::after { animation: none !important; }
   .plate[data-mode="reveal"] .plate-main, .plate.shake,
   .plate[data-mode="spinning"] .plate-eyebrow,

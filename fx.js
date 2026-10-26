@@ -9,7 +9,7 @@ window.FX = (() => {
   const fg = document.getElementById('fxFg');
   const bctx = bg.getContext('2d');
   const fctx = fg.getContext('2d');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reduce = { matches: new URLSearchParams(location.search).has('reduce-motion') };
   const rnd = (a, b) => a + Math.random() * (b - a);
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
   const backOut = p => 1 + 2.70158 * Math.pow(p - 1, 3) + 1.70158 * Math.pow(p - 1, 2);

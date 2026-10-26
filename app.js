@@ -29,7 +29,8 @@
     tickerLive: $('tickerLive'),
   };
   const ctx = els.canvas.getContext('2d');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // Ignores the OS animation setting (Windows "Animation effects" off kills spin length and particles). Opt in with ?reduce-motion
+  const reduceMotion = { matches: new URLSearchParams(location.search).has('reduce-motion') };
 
   // Example poll results for the example list; options not listed have no votes
   const EXAMPLE_VOTES = { 'Elden Ring': 5, 'Balatro': 4, 'Outer Wilds': 3, 'Hades II': 2, 'Celeste': 1, 'Hollow Knight': 1 };
